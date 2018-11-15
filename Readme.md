@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Андрей Деев](https://up.htmlacademy.ru/javascript/16/user/518707).
-* Наставник: `Неизвестно`.
+* Наставник: [Виталий Усик](https://htmlacademy.ru/profile/id235226).
 
 ---
 
