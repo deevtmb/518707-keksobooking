@@ -119,6 +119,22 @@ var renderMapPins = function (offers) {
   mapPinsElement.appendChild(fragment);
 };
 
+var addOfferPhotos = function (photos) {
+  var photoFragment = document.createDocumentFragment();
+
+  for (var i = 0; i < photos.length; i++) {
+    var photo = document.createElement('img');
+    photo.className = 'popup__photo';
+    photo.src = photos[i];
+    photo.alt = 'Фотография жилья';
+    photo.width = 40;
+    photo.height = 40;
+    photoFragment.appendChild(photo);
+  }
+
+  return photoFragment;
+};
+
 var renderOfferCard = function (offerItem) {
   var offerCardTemplate = document.querySelector('#card')
     .content
@@ -134,19 +150,20 @@ var renderOfferCard = function (offerItem) {
   offerCard.querySelector('.popup__features').textContent = offerItem.offer.features.join(', ');
   offerCard.querySelector('.popup__description').textContent = offerItem.offer.description;
   offerCard.querySelector('.popup__avatar').src = offerItem.author.avatar;
+  offerCard.querySelector('.popup__photos').replaceChild(addOfferPhotos(offerItem.offer.photos), offerCard.querySelector('.popup__photo'));
 
-  var photos = offerCard.querySelector('.popup__photos');
-  var photo = offerCard.querySelector('.popup__photo');
-
-  for (var i = 0; i < offerItem.offer.photos.length - 1; i++) {
-    photos.appendChild(photo.cloneNode(true));
-  }
-
-  var photoList = offerCard.querySelectorAll('.popup__photo');
-
-  for (var j = 0; j < photoList.length; j++) {
-    photoList[j].src = offerItem.offer.photos[j];
-  }
+  // var photos = offerCard.querySelector('.popup__photos');
+  // var photo = offerCard.querySelector('.popup__photo');
+  //
+  // for (var i = 0; i < offerItem.offer.photos.length - 1; i++) {
+  //   photos.appendChild(photo.cloneNode(true));
+  // }
+  //
+  // var photoList = offerCard.querySelectorAll('.popup__photo');
+  //
+  // for (var j = 0; j < photoList.length; j++) {
+  //   photoList[j].src = offerItem.offer.photos[j];
+  // }
 
   mapElement.insertBefore(offerCard, mapFiltersElement);
 };
