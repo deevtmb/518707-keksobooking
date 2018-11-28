@@ -17,10 +17,9 @@ var LOCATION_Y_MIN = 130;
 var LOCATION_Y_MAX = 630;
 
 var mapElement = document.querySelector('.map');
-var mapElementWidth = document.querySelector('.map').offsetWidth;
+var mapElementWidth = mapElement.offsetWidth;
 var mapPinsElement = document.querySelector('.map__pins');
 var mapFiltersElement = document.querySelector('.map__filters-container');
-var fragment = document.createDocumentFragment();
 
 var getRandomNumber = function (minNumber, maxNumber) {
   var randomNumber = Math.floor(minNumber + (Math.random() * (maxNumber - minNumber + 1)));
@@ -37,15 +36,6 @@ var getRandomElement = function (array, cut) {
 
   return randomElement;
 };
-
-// Вопрос - функция на каждой итерации должна давать новый массив случайной длины, но вместо этого обновляет исходный массив переданый в параметре "срезая" его длину, почему? Функция вызывается внутри createOffers для свойства features
-//
-// var getOfferFeatures = function (features) {
-//   var featuresList = features;
-//   featuresList.length = Math.floor(Math.random() * (featuresList.length + 1));
-//
-//   return featuresList;
-// };
 
 var getOfferFeatures = function (features) {
   var featuresList = [];
@@ -78,14 +68,16 @@ var createOffers = function (amount) {
   var offers = [];
 
   for (var i = 0; i < amount; i++) {
+    var coordinateX = getRandomNumber(mapElementWidth * 0.1, mapElementWidth * 0.9);
+    var coordinateY = getRandomNumber(LOCATION_Y_MIN, LOCATION_Y_MAX);
+
     offers.push({
       author: {
         avatar: 'img/avatars/user0' + (i + 1) + '.png'
       },
       offer: {
         title: getRandomElement(OFFER_TITLES, true),
-        // Вопрос: Как передать в address данные, полученные из свойства location.x/y?
-        address: '',
+        address: coordinateX + ', ' + coordinateY,
         price: getRandomNumber(OFFER_MIN_PRICE, OFFER_MAX_PRICE),
         type: getRandomElement(OFFER_TYPE),
         rooms: getRandomNumber(OFFER_MIN_ROOMS, OFFER_MAX_ROOMS),
@@ -97,8 +89,8 @@ var createOffers = function (amount) {
         photos: shufflePhotos(OFFER_PHOTOS)
       },
       location: {
-        x: getRandomNumber(mapElementWidth * 0.1, mapElementWidth * 0.9),
-        y: getRandomNumber(LOCATION_Y_MIN, LOCATION_Y_MAX)
+        x: coordinateX,
+        y: coordinateY
       }
     });
   }
@@ -111,8 +103,7 @@ var createMapPin = function (offerItem) {
     .content
     .querySelector('.map__pin');
   var mapPinElement = mapPinTemplate.cloneNode(true);
-  // Вопрос - Правильно ли получены размеры элементов?? В п.3 задания нужно учесть их размеры
-  mapPinElement.style = 'left: ' + (offerItem.location.x - mapPinElement.style.width / 2) + 'px; ' + 'top: ' + (offerItem.location.y - mapPinElement.style.height) + 'px;';
+  mapPinElement.style = 'left: ' + (offerItem.location.x + mapPinElement.style.width / 2) + 'px; ' + 'top: ' + (offerItem.location.y + mapPinElement.style.height) + 'px;';
   mapPinElement.querySelector('img').src = offerItem.author.avatar;
   mapPinElement.querySelector('img').alt = offerItem.offer.title;
 
@@ -120,6 +111,8 @@ var createMapPin = function (offerItem) {
 };
 
 var renderMapPins = function (offers) {
+  var fragment = document.createDocumentFragment();
+
   for (var i = 0; i < offers.length; i++) {
     fragment.appendChild(createMapPin(offers[i]));
   }
@@ -142,7 +135,6 @@ var renderOfferCard = function (offerItem) {
   offerCard.querySelector('.popup__description').textContent = offerItem.offer.description;
   offerCard.querySelector('.popup__avatar').src = offerItem.author.avatar;
 
-  // Как отрисовать фото по-человечески??? :)
   var photos = offerCard.querySelector('.popup__photos');
   var photo = offerCard.querySelector('.popup__photo');
 
