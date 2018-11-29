@@ -22,6 +22,12 @@ var mapElement = document.querySelector('.map');
 var mapElementWidth = mapElement.offsetWidth;
 var mapPinsElement = document.querySelector('.map__pins');
 var mapFiltersElement = document.querySelector('.map__filters-container');
+var offerCardTemplate = document.querySelector('#card')
+  .content
+  .querySelector('.map__card');
+var mapPinTemplate = document.querySelector('#pin')
+  .content
+  .querySelector('.map__pin');
 
 var getRandomNumber = function (minNumber, maxNumber) {
   var randomNumber = Math.floor(minNumber + (Math.random() * (maxNumber - minNumber + 1)));
@@ -101,10 +107,8 @@ var createOffers = function (amount) {
 };
 
 var createMapPin = function (offerItem) {
-  var mapPinTemplate = document.querySelector('#pin')
-    .content
-    .querySelector('.map__pin');
   var mapPinElement = mapPinTemplate.cloneNode(true);
+
   mapPinElement.style = 'left: ' + (offerItem.location.x - MAP_PIN_WIDTH / 2) + 'px; ' + 'top: ' + (offerItem.location.y - MAP_PIN_HEIGHT) + 'px;';
   mapPinElement.querySelector('img').src = offerItem.author.avatar;
   mapPinElement.querySelector('img').alt = offerItem.offer.title;
@@ -138,9 +142,6 @@ var addOfferPhotos = function (photos) {
 };
 
 var renderOfferCard = function (offerItem) {
-  var offerCardTemplate = document.querySelector('#card')
-    .content
-    .querySelector('.map__card');
   var offerCard = offerCardTemplate.cloneNode(true);
 
   offerCard.querySelector('.popup__title').textContent = offerItem.offer.title;
