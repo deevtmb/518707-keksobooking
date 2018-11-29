@@ -15,6 +15,8 @@ var OFFER_MAX_GUESTS = 8;
 var OFFERS_AMOUNT = 8;
 var LOCATION_Y_MIN = 130;
 var LOCATION_Y_MAX = 630;
+var MAP_PIN_HEIGHT = 70;
+var MAP_PIN_WIDTH = 50;
 
 var mapElement = document.querySelector('.map');
 var mapElementWidth = mapElement.offsetWidth;
@@ -103,7 +105,7 @@ var createMapPin = function (offerItem) {
     .content
     .querySelector('.map__pin');
   var mapPinElement = mapPinTemplate.cloneNode(true);
-  mapPinElement.style = 'left: ' + (offerItem.location.x + mapPinElement.style.width / 2) + 'px; ' + 'top: ' + (offerItem.location.y + mapPinElement.style.height) + 'px;';
+  mapPinElement.style = 'left: ' + (offerItem.location.x - MAP_PIN_WIDTH / 2) + 'px; ' + 'top: ' + (offerItem.location.y - MAP_PIN_HEIGHT) + 'px;';
   mapPinElement.querySelector('img').src = offerItem.author.avatar;
   mapPinElement.querySelector('img').alt = offerItem.offer.title;
 
@@ -151,19 +153,6 @@ var renderOfferCard = function (offerItem) {
   offerCard.querySelector('.popup__description').textContent = offerItem.offer.description;
   offerCard.querySelector('.popup__avatar').src = offerItem.author.avatar;
   offerCard.querySelector('.popup__photos').replaceChild(addOfferPhotos(offerItem.offer.photos), offerCard.querySelector('.popup__photo'));
-
-  // var photos = offerCard.querySelector('.popup__photos');
-  // var photo = offerCard.querySelector('.popup__photo');
-  //
-  // for (var i = 0; i < offerItem.offer.photos.length - 1; i++) {
-  //   photos.appendChild(photo.cloneNode(true));
-  // }
-  //
-  // var photoList = offerCard.querySelectorAll('.popup__photo');
-  //
-  // for (var j = 0; j < photoList.length; j++) {
-  //   photoList[j].src = offerItem.offer.photos[j];
-  // }
 
   mapElement.insertBefore(offerCard, mapFiltersElement);
 };
