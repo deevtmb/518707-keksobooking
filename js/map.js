@@ -17,6 +17,7 @@ var LOCATION_Y_MIN = 130;
 var LOCATION_Y_MAX = 630;
 var MAP_PIN_HEIGHT = 70;
 var MAP_PIN_WIDTH = 50;
+var ESC_KEYCODE = 27;
 
 var randomOffers = [];
 var mapElement = document.querySelector('.map');
@@ -205,7 +206,7 @@ window.addEventListener('load', function () {
 });
 
 document.addEventListener('keydown', function (evt) {
-  if (evt.keyCode === 27 && mapElement.querySelector('.map__card')) {
+  if (evt.keyCode === ESC_KEYCODE && mapElement.querySelector('.map__card')) {
     mapElement.removeChild(mapElement.querySelector('.map__card'));
   }
 });
