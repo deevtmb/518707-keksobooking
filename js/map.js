@@ -18,6 +18,7 @@ var LOCATION_Y_MAX = 630;
 var MAP_PIN_HEIGHT = 70;
 var MAP_PIN_WIDTH = 50;
 
+var randomOffers = [];
 var mapElement = document.querySelector('.map');
 var mapElementWidth = mapElement.offsetWidth;
 var mapElementHeight = mapElement.offsetHeight;
@@ -32,7 +33,7 @@ var mapPinTemplate = document.querySelector('#pin')
   .querySelector('.map__pin');
 var formElement = document.querySelector('.ad-form');
 var formFieldsetElements = formElement.querySelectorAll('fieldset');
-var addressInput = formElement.querySelector('#address');
+var addressInputElement = formElement.querySelector('#address');
 
 var getRandomNumber = function (minNumber, maxNumber) {
   var randomNumber = Math.floor(minNumber + (Math.random() * (maxNumber - minNumber + 1)));
@@ -172,30 +173,43 @@ var renderOfferCard = function (offerItem) {
   });
 };
 
-var randomOffers = createOffers(OFFERS_AMOUNT);
+var generateRandomOffers = function () {
+  randomOffers = createOffers(OFFERS_AMOUNT);
+};
 
-var activateMap = function () {
-  mapElement.classList.remove('map--faded');
-  formElement.classList.remove('ad-form--disabled');
-
+var enableForm = function () {
   for (var i = 0; i < formFieldsetElements.length; i++) {
     formFieldsetElements[i].removeAttribute('disabled');
   }
-
-  renderMapPins(randomOffers);
 };
 
-window.addEventListener('load', function () {
+var disableForm = function () {
   if (formElement.classList.contains('ad-form--disabled')) {
     for (var i = 0; i < formFieldsetElements.length; i++) {
       formFieldsetElements[i].setAttribute('disabled', true);
     }
   }
-  addressInput.value = (mapElementWidth / 2 - MAP_PIN_WIDTH / 2) + ', ' + (mapElementHeight / 2 - MAP_PIN_HEIGHT);
+};
+
+var activateMap = function () {
+  mapElement.classList.remove('map--faded');
+  formElement.classList.remove('ad-form--disabled');
+
+  enableForm();
+  renderMapPins(randomOffers);
+};
+
+window.addEventListener('load', function () {
+  disableForm();
+  addressInputElement.value = (mapElementWidth / 2 - MAP_PIN_WIDTH / 2) + ', ' + (mapElementHeight / 2 - MAP_PIN_HEIGHT);
+});
+
+document.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === 27 && mapElement.querySelector('.map__card')) {
+    mapElement.removeChild(mapElement.querySelector('.map__card'));
+  }
 });
 
 mapPinMainElement.addEventListener('mouseup', activateMap);
 
-document.addEventListener('keydown', function () {
-  mapElement.removeChild(mapElement.querySelector('.map__card'));
-});
+generateRandomOffers();
