@@ -116,13 +116,13 @@ var createMapPin = function (offerItem) {
   mapPin.querySelector('img').src = offerItem.author.avatar;
   mapPin.querySelector('img').alt = offerItem.offer.title;
 
-  mapPin.addEventListener('click', function () {
-    var popup = mapElement.querySelector('.popup');
-    if (popup) {
-      mapElement.removeChild(popup);
-    }
-    renderOfferCard(offerItem);
-  });
+  // mapPin.addEventListener('click', function () {
+  //   var popup = mapElement.querySelector('.popup');
+  //   if (popup) {
+  //     mapElement.removeChild(popup);
+  //   }
+  //   renderOfferCard(offerItem);
+  // });
 
   return mapPin;
 };
@@ -214,3 +214,14 @@ document.addEventListener('keydown', function (evt) {
 mapPinMainElement.addEventListener('mouseup', activateMap);
 
 generateRandomOffers();
+
+var mapPins = document.querySelectorAll('.map__pin');
+
+mapPins[2].addEventListener('click', function () {
+  var popup = mapElement.querySelector('.popup');
+  if (popup) {
+    mapElement.removeChild(popup);
+  }
+  renderOfferCard(randomOffers[2]);
+});
+
