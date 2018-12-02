@@ -195,3 +195,7 @@ window.addEventListener('load', function () {
 });
 
 mapPinMainElement.addEventListener('mouseup', activateMap);
+
+document.addEventListener('keydown', function () {
+  mapElement.removeChild(mapElement.querySelector('.map__card'));
+});
