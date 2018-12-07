@@ -35,6 +35,12 @@ var mapPinTemplate = document.querySelector('#pin')
 var formElement = document.querySelector('.ad-form');
 var formFieldsetElements = formElement.querySelectorAll('fieldset');
 var addressInputElement = formElement.querySelector('#address');
+var checkinInputElement = formElement.querySelector('#timein');
+var checkoutInputElement = formElement.querySelector('#timeout');
+var housingTypeElement = formElement.querySelector('#type');
+var housingPriceElement = formElement.querySelector('#price');
+var roomNumberElement = formElement.querySelector('#room_number');
+var guestCapacityElement = formElement.querySelector('#capacity');
 
 var getRandomNumber = function (minNumber, maxNumber) {
   var randomNumber = Math.floor(minNumber + (Math.random() * (maxNumber - minNumber + 1)));
@@ -214,3 +220,48 @@ document.addEventListener('keydown', function (evt) {
 mapPinMainElement.addEventListener('mouseup', activateMap);
 
 generateRandomOffers();
+
+// Валидация формы объявления
+
+var setElementsValueEquality = function (element1, element2, value1, value2, value3) {
+  if (element1.value === value1) {
+    element2.value = value1;
+  } else if (element1.value === value2) {
+    element2.value = value2;
+  } if (element1.value === value3) {
+    element2.value = value3;
+  }
+};
+
+checkinInputElement.addEventListener('input', function () {
+  setElementsValueEquality(checkinInputElement, checkoutInputElement, '12:00', '13:00', '14:00');
+});
+
+checkoutInputElement.addEventListener('input', function () {
+  setElementsValueEquality(checkoutInputElement, checkinInputElement, '12:00', '13:00', '14:00');
+});
+
+housingTypeElement.addEventListener('input', function () {
+  if (housingTypeElement.value === 'bungalo') {
+    housingPriceElement.min = 0;
+    housingPriceElement.placeholder = 2000;
+  } else if (housingTypeElement.value === 'flat') {
+    housingPriceElement.min = 1000;
+    housingPriceElement.placeholder = 5000;
+  } else if (housingTypeElement.value === 'house') {
+    housingPriceElement.min = 5000;
+    housingPriceElement.placeholder = 10000;
+  } else if (housingTypeElement.value === 'palace') {
+    housingPriceElement.min = 10000;
+    housingPriceElement.placeholder = 20000;
+  }
+});
+
+formElement.addEventListener('submit', function (evt) {
+  if (roomNumberElement.value === 1 && guestCapacityElement.value !== 1) {
+    evt.preventDefault();
+    guestCapacityElement.setCustomValidity('Для варианта размещения с одной комнатой максимум 1 гость');
+  } else {
+    guestCapacityElement.setCustomValidity('');
+  }
+});
