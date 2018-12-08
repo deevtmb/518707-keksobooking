@@ -265,7 +265,7 @@ var checkGuestNumber = function () {
   formElementButton.addEventListener('click', function () {
     if (roomNumberElement.value === '1' && guestCapacityElement.value !== '1') {
       guestCapacityElement.setCustomValidity('Одна комната - Один гость');
-    } else if ((roomNumberElement.value === '2' && guestCapacityElement.value !== '1') || (roomNumberElement.value === '2' && guestCapacityElement.value !== '2')) {
+    } else if (roomNumberElement.value === '2' && guestCapacityElement.value !== '1' && guestCapacityElement.value !== '2') {
       guestCapacityElement.setCustomValidity('Две комнаты - Один или Два гостя');
     } else if (roomNumberElement.value === '3' && guestCapacityElement.value === '0') {
       guestCapacityElement.setCustomValidity('Выберите количество гостей');
