@@ -278,7 +278,7 @@ var checkGuestNumber = function () {
   });
 };
 
-var checkFormValidity = function () {
+var setValidationListeners = function () {
   checkinInputElement.addEventListener('input', function () {
     setElementsValueEquality(checkinInputElement, checkoutInputElement);
   });
@@ -295,4 +295,4 @@ var checkFormValidity = function () {
   });
 };
 
-checkFormValidity();
+setValidationListeners();
