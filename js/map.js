@@ -51,7 +51,8 @@ var housingTypeElement = formElement.querySelector('#type');
 var housingPriceElement = formElement.querySelector('#price');
 var roomNumberElement = formElement.querySelector('#room_number');
 var guestCapacityElement = formElement.querySelector('#capacity');
-var formElementButton = formElement.querySelector('.ad-form__submit');
+var submitButtonElement = formElement.querySelector('.ad-form__submit');
+var resetButtonElement = formElement.querySelector('.ad-form__reset');
 
 var getRandomNumber = function (minNumber, maxNumber) {
   var randomNumber = Math.floor(minNumber + (Math.random() * (maxNumber - minNumber + 1)));
@@ -232,6 +233,12 @@ document.addEventListener('keydown', function (evt) {
   }
 });
 
+resetButtonElement.addEventListener('click', function (evt) {
+  evt.preventDefault();
+  formElement.reset();
+  setAddressValue();
+});
+
 generateRandomOffers();
 
 // Валидация формы объявления
@@ -263,7 +270,7 @@ var setAccommodationPrice = function () {
 };
 
 var checkGuestNumber = function () {
-  formElementButton.addEventListener('click', function () {
+  submitButtonElement.addEventListener('click', function () {
     if (roomNumberElement.value === '1' && guestCapacityElement.value !== '1') {
       guestCapacityElement.setCustomValidity('Одна комната - Один гость');
     } else if (roomNumberElement.value === '2' && guestCapacityElement.value !== '1' && guestCapacityElement.value !== '2') {
