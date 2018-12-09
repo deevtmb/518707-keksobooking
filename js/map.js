@@ -33,7 +33,6 @@ var PALACE_PLACEHOLDER_PRICE = 50000;
 var randomOffers = [];
 var mapElement = document.querySelector('.map');
 var mapElementWidth = mapElement.offsetWidth;
-var mapElementHeight = mapElement.offsetHeight;
 var mapPinElements = mapElement.querySelector('.map__pins');
 var mapPinMainElement = mapElement.querySelector('.map__pin--main');
 var mapFiltersElement = mapElement.querySelector('.map__filters-container');
@@ -218,9 +217,13 @@ var activateMap = function () {
   renderMapPins(randomOffers);
 };
 
+var setAddressValue = function () {
+  addressInputElement.value = (mapPinMainElement.offsetLeft - MAP_PIN_WIDTH / 2) + ', ' + (mapPinMainElement.offsetTop - MAP_PIN_HEIGHT);
+};
+
 window.addEventListener('load', function () {
   disableForm();
-  addressInputElement.value = (mapElementWidth / 2 - MAP_PIN_WIDTH / 2) + ', ' + (mapElementHeight / 2 - MAP_PIN_HEIGHT);
+  setAddressValue();
 });
 
 document.addEventListener('keydown', function (evt) {
@@ -228,8 +231,6 @@ document.addEventListener('keydown', function (evt) {
     mapElement.removeChild(mapElement.querySelector('.map__card'));
   }
 });
-
-mapPinMainElement.addEventListener('mouseup', activateMap);
 
 generateRandomOffers();
 
@@ -296,3 +297,60 @@ var setValidationListeners = function () {
 };
 
 setValidationListeners();
+
+// Перетаскивание метки
+
+var startCoordinates = {};
+
+var onMouseMove = function (moveEvt) {
+  if (mapElement.classList.contains('map--faded')) {
+    activateMap();
+  }
+
+  var shift = {
+    x: startCoordinates.x - moveEvt.clientX,
+    y: startCoordinates.y - moveEvt.clientY
+  };
+
+  startCoordinates = {
+    x: moveEvt.x,
+    y: moveEvt.y
+  };
+
+  var positionX = mapPinMainElement.offsetLeft - shift.x;
+  var positionY = mapPinMainElement.offsetTop - shift.y;
+
+  if (positionX < 0) {
+    positionX = 0;
+  } else if (positionX > mapElement.offsetWidth - MAP_PIN_WIDTH) {
+    positionX = mapElement.offsetWidth - MAP_PIN_WIDTH;
+  }
+
+  if (positionY < (LOCATION_Y_MIN - MAP_PIN_HEIGHT)) {
+    positionY = LOCATION_Y_MIN - MAP_PIN_HEIGHT;
+  } else if (positionY > (LOCATION_Y_MAX)) {
+    positionY = LOCATION_Y_MAX;
+  }
+
+  setAddressValue();
+
+  mapPinMainElement.style.left = positionX + 'px';
+  mapPinMainElement.style.top = positionY + 'px';
+};
+
+var onMouseUp = function () {
+  setAddressValue();
+  document.removeEventListener('mousemove', onMouseMove);
+  document.removeEventListener('mouseup', onMouseUp);
+};
+
+mapPinMainElement.addEventListener('mousedown', function (evt) {
+  startCoordinates = {
+    x: evt.clientX,
+    y: evt.clientY
+  };
+
+
+  document.addEventListener('mousemove', onMouseMove);
+  document.addEventListener('mouseup', onMouseUp);
+});
