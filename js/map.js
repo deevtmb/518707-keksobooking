@@ -218,7 +218,7 @@ var activateMap = function () {
 };
 
 var setAddressValue = function () {
-  addressInputElement.value = (mapPinMainElement.offsetLeft - MAP_PIN_WIDTH / 2) + ', ' + (mapPinMainElement.offsetTop - MAP_PIN_HEIGHT);
+  addressInputElement.value = (mapPinMainElement.offsetLeft + MAP_PIN_WIDTH / 2) + ', ' + (mapPinMainElement.offsetTop + MAP_PIN_HEIGHT);
 };
 
 window.addEventListener('load', function () {
