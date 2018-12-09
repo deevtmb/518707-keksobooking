@@ -328,8 +328,8 @@ var onMouseMove = function (moveEvt) {
 
   if (positionY < (LOCATION_Y_MIN - MAP_PIN_HEIGHT)) {
     positionY = LOCATION_Y_MIN - MAP_PIN_HEIGHT;
-  } else if (positionY > (LOCATION_Y_MAX)) {
-    positionY = LOCATION_Y_MAX;
+  } else if (positionY > (LOCATION_Y_MAX - MAP_PIN_HEIGHT)) {
+    positionY = LOCATION_Y_MAX - MAP_PIN_HEIGHT;
   }
 
   setAddressValue();
