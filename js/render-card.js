@@ -46,13 +46,13 @@
     cardCloseButton.addEventListener('click', function () {
       mapElement.removeChild(offerCard);
     });
+
+    document.addEventListener('keydown', function (evt) {
+      if (evt.keyCode === ESC_KEYCODE && mapElement.querySelector('.map__card')) {
+        mapElement.removeChild(mapElement.querySelector('.map__card'));
+      }
+    });
   };
 
-  document.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === ESC_KEYCODE && mapElement.querySelector('.map__card')) {
-      mapElement.removeChild(mapElement.querySelector('.map__card'));
-    }
-  });
-
-  window.card = renderOfferCard;
+  window.renderCard = renderOfferCard;
 })();

@@ -11,7 +11,7 @@
     formElement.classList.remove('ad-form--disabled');
 
     window.form.enableForm();
-    window.map(window.offers);
+    window.renderPins(window.offers);
   };
 
   var onMouseMove = function (moveEvt) {

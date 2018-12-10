@@ -19,13 +19,13 @@
       if (popup) {
         mapElement.removeChild(popup);
       }
-      window.card(offerItem);
+      window.renderCard(offerItem);
     });
 
     return mapPin;
   };
 
-  var renderMapPins = function (offers) {
+  window.renderPins = function (offers) {
     var fragment = document.createDocumentFragment();
 
     for (var i = 0; i < offers.length; i++) {
@@ -33,6 +33,4 @@
     }
     mapPinElements.appendChild(fragment);
   };
-
-  window.map = renderMapPins;
 })();
