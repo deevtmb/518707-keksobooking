@@ -48,8 +48,10 @@
     });
 
     document.addEventListener('keydown', function (evt) {
-      if (evt.keyCode === ESC_KEYCODE && mapElement.querySelector('.map__card')) {
-        mapElement.removeChild(mapElement.querySelector('.map__card'));
+      var cardElement = document.querySelector('.map__card');
+
+      if (evt.keyCode === ESC_KEYCODE && cardElement) {
+        cardElement.remove();
       }
     });
   };
