@@ -13,9 +13,7 @@
   var PALACE_MIN_PRICE = 10000;
   var PALACE_PLACEHOLDER_PRICE = 50000;
 
-  var mapPinMainElement = document.querySelector('.map__pin--main');
   var formElement = document.querySelector('.ad-form');
-  var formFieldsetElements = formElement.querySelectorAll('fieldset');
   var checkinInputElement = formElement.querySelector('#timein');
   var checkoutInputElement = formElement.querySelector('#timeout');
   var housingTypeElement = formElement.querySelector('#type');
@@ -23,12 +21,6 @@
   var roomNumberElement = formElement.querySelector('#room_number');
   var guestCapacityElement = formElement.querySelector('#capacity');
   var submitButtonElement = formElement.querySelector('.ad-form__submit');
-  var resetButtonElement = formElement.querySelector('.ad-form__reset');
-  var addressInputElement = formElement.querySelector('#address');
-
-  var setAddressValue = function () {
-    addressInputElement.value = (mapPinMainElement.offsetLeft + window.utils.MAP_PIN_WIDTH / 2) + ', ' + (mapPinMainElement.offsetTop + window.utils.MAP_PIN_HEIGHT);
-  };
 
   var setElementsValueEquality = function (element1, element2) {
     if (element1.value === TIME_12) {
@@ -68,12 +60,12 @@
         guestCapacityElement.setCustomValidity('Сто комнат - не для гостей');
       } else {
         guestCapacityElement.setCustomValidity('');
-        formElement.submit();
+        window.backend.save(new FormData(formElement), window.formSetup.onSuccessSubmit, window.userMsg.onErrorMessage);
       }
     });
   };
 
-  var setValidationListeners = function () {
+  var onValidationListeners = function () {
     checkinInputElement.addEventListener('input', function () {
       setElementsValueEquality(checkinInputElement, checkoutInputElement);
     });
@@ -86,43 +78,10 @@
 
     formElement.addEventListener('submit', function (evt) {
       evt.preventDefault();
-      checkGuestNumber();
     });
+
+    checkGuestNumber();
   };
 
-  window.addEventListener('load', function () {
-    disableForm();
-    setAddressValue();
-  });
-
-  var disableForm = function () {
-    if (formElement.classList.contains('ad-form--disabled')) {
-      for (var i = 0; i < formFieldsetElements.length; i++) {
-        formFieldsetElements[i].setAttribute('disabled', true);
-      }
-    }
-  };
-
-  var enableForm = function () {
-    for (var i = 0; i < formFieldsetElements.length; i++) {
-      formFieldsetElements[i].removeAttribute('disabled');
-    }
-  };
-
-  resetButtonElement.addEventListener('click', function (evt) {
-    evt.preventDefault();
-    formElement.reset();
-    setAddressValue();
-  });
-
-  setValidationListeners();
-
-  window.form = {
-    enableForm: function () {
-      enableForm();
-    },
-    setAddressValue: function () {
-      setAddressValue();
-    }
-  };
+  onValidationListeners();
 })();

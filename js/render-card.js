@@ -2,7 +2,7 @@
 
 (function () {
   var OFFER_TYPE_NAME = {palace: 'Дворец', flat: 'Квартира', house: 'Дом', bungalo: 'Бунгало'};
-  var ESC_KEYCODE = 27;
+  var FEATURE_NAME = {wifi: 'Wi-Fi', dishwasher: 'Кухня', parking: 'Парковка', washer: 'Стиральная машина', elevator: 'Лифт', conditioner: 'Кондиционер'};
 
   var mapElement = document.querySelector('.map');
   var mapFiltersElement = mapElement.querySelector('.map__filters-container');
@@ -26,6 +26,15 @@
     return photoFragment;
   };
 
+  var getFeatureNames = function (features) {
+    var featureNames = [];
+    for (var i = 0; i < features.length; i++) {
+      featureNames.push(FEATURE_NAME[features[i]]);
+    }
+
+    return featureNames;
+  };
+
   var renderOfferCard = function (offerItem) {
     var offerCard = offerCardTemplate.cloneNode(true);
     var cardCloseButton = offerCard.querySelector('.popup__close');
@@ -36,10 +45,17 @@
     offerCard.querySelector('.popup__type').textContent = OFFER_TYPE_NAME[offerItem.offer.type];
     offerCard.querySelector('.popup__text--capacity').textContent = 'Комнат - ' + offerItem.offer.rooms + ', вмещает гостей - ' + offerItem.offer.guests;
     offerCard.querySelector('.popup__text--time').textContent = 'Заезд после ' + offerItem.offer.checkin + ', выезд до ' + offerItem.offer.checkout;
-    offerCard.querySelector('.popup__features').textContent = offerItem.offer.features.join(', ');
+    offerCard.querySelector('.popup__features').textContent = getFeatureNames(offerItem.offer.features).join(', ');
     offerCard.querySelector('.popup__description').textContent = offerItem.offer.description;
     offerCard.querySelector('.popup__avatar').src = offerItem.author.avatar;
     offerCard.querySelector('.popup__photos').replaceChild(addOfferPhotos(offerItem.offer.photos), offerCard.querySelector('.popup__photo'));
+
+    var offerCardChildren = offerCard.children;
+    for (var i = 0; i < offerCardChildren.length; i++) {
+      if (offerCardChildren[i].textContent === '' && !offerCardChildren[i].classList.contains('popup__avatar')) {
+        offerCardChildren[i].remove();
+      }
+    }
 
     mapElement.insertBefore(offerCard, mapFiltersElement);
 
@@ -50,7 +66,7 @@
     document.addEventListener('keydown', function (evt) {
       var cardElement = document.querySelector('.map__card');
 
-      if (evt.keyCode === ESC_KEYCODE && cardElement) {
+      if (evt.keyCode === window.userMsg.ESC_KEYCODE && cardElement) {
         cardElement.remove();
       }
     });

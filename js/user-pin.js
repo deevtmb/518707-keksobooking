@@ -10,13 +10,13 @@
     mapElement.classList.remove('map--faded');
     formElement.classList.remove('ad-form--disabled');
 
-    window.form.enableForm();
-    window.renderPins(window.offers);
+    window.formSetup.enableForm();
   };
 
   var onMouseMove = function (moveEvt) {
     if (mapElement.classList.contains('map--faded')) {
       activateMap();
+      window.backend.load(window.renderPins, window.userMsg.onErrorMessage);
     }
 
     var shift = {
@@ -44,14 +44,14 @@
       positionY = window.utils.LOCATION_Y_MAX - window.utils.MAP_PIN_HEIGHT;
     }
 
-    window.form.setAddressValue();
+    window.formSetup.setAddressValue();
 
     mapPinMainElement.style.left = positionX + 'px';
     mapPinMainElement.style.top = positionY + 'px';
   };
 
   var onMouseUp = function () {
-    window.form.setAddressValue();
+    window.formSetup.setAddressValue();
     document.removeEventListener('mousemove', onMouseMove);
     document.removeEventListener('mouseup', onMouseUp);
   };
@@ -67,7 +67,10 @@
   });
 
   mapPinMainElement.addEventListener('click', function () {
-    activateMap();
+    if (mapElement.classList.contains('map--faded')) {
+      activateMap();
+      window.backend.load(window.renderPins);
+    }
     mapPinMainElement.removeEventListener('click', activateMap);
   });
 })();
