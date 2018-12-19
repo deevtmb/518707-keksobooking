@@ -48,13 +48,13 @@
     offerCard.querySelector('.popup__features').textContent = getFeatureNames(offerItem.offer.features).join(', ');
     offerCard.querySelector('.popup__description').textContent = offerItem.offer.description;
     offerCard.querySelector('.popup__avatar').src = offerItem.author.avatar;
-    offerCard.querySelector('.popup__photos').replaceChild(addOfferPhotos(offerItem.offer.photos), offerCard.querySelector('.popup__photo'));
+    offerCard.replaceChild(addOfferPhotos(offerItem.offer.photos), offerCard.querySelector('.popup__photos'));
 
-    var offerCardChildren = offerCard.children;
-    for (var i = 0; i < offerCardChildren.length; i++) {
-      if (offerCardChildren[i].textContent === '' && !offerCardChildren[i].classList.contains('popup__avatar')) {
-        offerCardChildren[i].remove();
-      }
+    if (offerCard.querySelector('.popup__description').textContent === '') {
+      offerCard.querySelector('.popup__description').remove();
+    }
+    if (offerCard.querySelector('.popup__features').textContent === '') {
+      offerCard.querySelector('.popup__features').remove();
     }
 
     mapElement.insertBefore(offerCard, mapFiltersElement);

@@ -23,7 +23,7 @@
     }
   };
 
-  var enableForm = function () {
+  var enable = function () {
     for (var i = 0; i < formFieldsetElements.length; i++) {
       formFieldsetElements[i].removeAttribute('disabled');
     }
@@ -67,7 +67,7 @@
   });
 
   window.formSetup = {
-    enableForm: enableForm,
+    enable: enable,
     onSuccessSubmit: onSuccessSubmit,
     setAddressValue: setAddressValue
   };

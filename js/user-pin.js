@@ -10,13 +10,13 @@
     mapElement.classList.remove('map--faded');
     formElement.classList.remove('ad-form--disabled');
 
-    window.formSetup.enableForm();
+    window.formSetup.enable();
   };
 
   var onMouseMove = function (moveEvt) {
     if (mapElement.classList.contains('map--faded')) {
       activateMap();
-      window.backend.load(window.renderPins, window.userMsg.onErrorMessage);
+      window.backend.load(window.renderPins, window.userMsg.onError);
     }
 
     var shift = {

@@ -60,7 +60,7 @@
         guestCapacityElement.setCustomValidity('Сто комнат - не для гостей');
       } else {
         guestCapacityElement.setCustomValidity('');
-        window.backend.save(new FormData(formElement), window.formSetup.onSuccessSubmit, window.userMsg.onErrorMessage);
+        window.backend.save(new FormData(formElement), window.formSetup.onSuccessSubmit, window.userMsg.onError);
       }
     });
   };

@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  var onErrorMessage = function (errorMessage) {
+  var onError = function (errorMessage) {
     var errorTemplate = document.querySelector('#error')
       .content
       .querySelector('.error');
@@ -48,7 +48,7 @@
   };
 
   window.userMsg = {
-    onErrorMessage: onErrorMessage,
+    onError: onError,
     onSuccessSave: onSuccessSave
   };
 
