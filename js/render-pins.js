@@ -20,6 +20,10 @@
         mapElement.removeChild(popup);
       }
       window.renderCard(offerItem);
+      mapPin.classList.add('map__pin--active');
+      mapPin.addEventListener('blur', function () {
+        mapPin.classList.remove('map__pin--active');
+      });
     });
 
     return mapPin;
