@@ -1,17 +1,21 @@
 'use strict';
 
 (function () {
-  var TIME_12 = '12:00';
-  var TIME_13 = '13:00';
-  var TIME_14 = '14:00';
-  var BUNGALO_MIN_PRICE = 0;
-  var BUNGALO_PLACEHOLDER_PRICE = 500;
-  var FLAT_MIN_PRICE = 1000;
-  var FLAT_PLACEHOLDER_PRICE = 5000;
-  var HOUSE_MIN_PRICE = 5000;
-  var HOUSE_PLACEHOLDER_PRICE = 8000;
-  var PALACE_MIN_PRICE = 10000;
-  var PALACE_PLACEHOLDER_PRICE = 50000;
+  var Time = {
+    VALUE_12: '12:00',
+    VALUE_13: '13:00',
+    VALUE_14: '14:00'
+  };
+  var Price = {
+    BUNGALO_MIN: 0,
+    BUNGALO_PLACEHOLDER: 500,
+    FLAT_MIN: 1000,
+    FLAT_PLACEHOLDER: 5000,
+    HOUSE_MIN: 5000,
+    HOUSE_PLACEHOLDER: 8000,
+    PALACE_MIN: 10000,
+    PALACE_PLACEHOLDER: 50000
+  };
 
   var formElement = document.querySelector('.ad-form');
   var checkinInputElement = formElement.querySelector('#timein');
@@ -23,28 +27,28 @@
   var submitButtonElement = formElement.querySelector('.ad-form__submit');
 
   var setElementsValueEquality = function (element1, element2) {
-    if (element1.value === TIME_12) {
-      element2.value = TIME_12;
-    } else if (element1.value === TIME_13) {
-      element2.value = TIME_13;
-    } if (element1.value === TIME_14) {
-      element2.value = TIME_14;
+    if (element1.value === Time.VALUE_12) {
+      element2.value = Time.VALUE_12;
+    } else if (element1.value === Time.VALUE_13) {
+      element2.value = Time.VALUE_13;
+    } if (element1.value === Time.VALUE_14) {
+      element2.value = Time.VALUE_14;
     }
   };
 
   var setAccommodationPrice = function () {
     if (housingTypeElement.value === 'bungalo') {
-      housingPriceElement.min = BUNGALO_MIN_PRICE;
-      housingPriceElement.placeholder = BUNGALO_PLACEHOLDER_PRICE;
+      housingPriceElement.min = Price.BUNGALO_MIN;
+      housingPriceElement.placeholder = Price.BUNGALO_PLACEHOLDER;
     } else if (housingTypeElement.value === 'flat') {
-      housingPriceElement.min = FLAT_MIN_PRICE;
-      housingPriceElement.placeholder = FLAT_PLACEHOLDER_PRICE;
+      housingPriceElement.min = Price.FLAT_MIN;
+      housingPriceElement.placeholder = Price.FLAT_PLACEHOLDER;
     } else if (housingTypeElement.value === 'house') {
-      housingPriceElement.min = HOUSE_MIN_PRICE;
-      housingPriceElement.placeholder = HOUSE_PLACEHOLDER_PRICE;
+      housingPriceElement.min = Price.HOUSE_MIN;
+      housingPriceElement.placeholder = Price.HOUSE_PLACEHOLDER;
     } else if (housingTypeElement.value === 'palace') {
-      housingPriceElement.min = PALACE_MIN_PRICE;
-      housingPriceElement.placeholder = PALACE_PLACEHOLDER_PRICE;
+      housingPriceElement.min = Price.PALACE_MIN;
+      housingPriceElement.placeholder = Price.PALACE_PLACEHOLDER;
     }
   };
 
