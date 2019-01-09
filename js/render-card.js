@@ -35,7 +35,7 @@
     return featureNames;
   };
 
-  var renderOfferCard = function (offerItem) {
+  window.renderCard = function (offerItem) {
     var offerCard = offerCardTemplate.cloneNode(true);
     var cardCloseButton = offerCard.querySelector('.popup__close');
 
@@ -66,11 +66,9 @@
     document.addEventListener('keydown', function (evt) {
       var cardElement = document.querySelector('.map__card');
 
-      if (evt.keyCode === window.userMsg.ESC_KEYCODE && cardElement) {
+      if (evt.keyCode === window.utils.ESC_KEYCODE && cardElement) {
         cardElement.remove();
       }
     });
   };
-
-  window.renderCard = renderOfferCard;
 })();
