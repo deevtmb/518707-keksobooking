@@ -1,12 +1,19 @@
 'use strict';
 
 (function () {
+  var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
+
   var mapElement = document.querySelector('.map');
   var mapMainPinElement = document.querySelector('.map__pin--main');
   var formElement = document.querySelector('.ad-form');
   var formFieldsetElements = formElement.querySelectorAll('fieldset');
   var resetButtonElement = formElement.querySelector('.ad-form__reset');
   var addressInputElement = formElement.querySelector('#address');
+  var avatarChooserElement = formElement.querySelector('.ad-form-header__input');
+  var avatarPreviewElement = formElement.querySelector('.ad-form-header__preview img');
+  var photoContainerElement = formElement.querySelector('.ad-form__photo-container');
+  var photoChooserElement = formElement.querySelector('.ad-form__input');
+  var photoPreviewElement = formElement.querySelector('.ad-form__photo');
 
   var mainPinPositionLeft = mapMainPinElement.style.left;
   var mainPinPositionTop = mapMainPinElement.style.top;
@@ -59,6 +66,55 @@
   window.addEventListener('load', function () {
     disableForm();
     setAddressValue();
+  });
+
+  avatarChooserElement.addEventListener('change', function () {
+    var file = avatarChooserElement.files[0];
+    var fileName = file.name.toLowerCase();
+
+    var matches = FILE_TYPES.some(function (it) {
+      return fileName.endsWith(it);
+    });
+
+    if (matches) {
+      var reader = new FileReader();
+
+      reader.addEventListener('load', function () {
+        avatarPreviewElement.src = reader.result;
+      });
+
+      reader.readAsDataURL(file);
+    }
+  });
+
+  photoChooserElement.addEventListener('change', function () {
+    var file = photoChooserElement.files[0];
+    var fileName = file.name.toLowerCase();
+
+    var matches = FILE_TYPES.some(function (it) {
+      return fileName.endsWith(it);
+    });
+
+    if (matches) {
+      var reader = new FileReader();
+      var photo = document.createElement('img');
+      photo.className = 'ad-form__photo';
+
+      if (photoPreviewElement.innerHTML !== '') {
+        var newPhotoElement = document.createElement('div');
+        newPhotoElement.className = 'ad-form__photo';
+        newPhotoElement.appendChild(photo);
+        photoContainerElement.appendChild(newPhotoElement);
+      } else {
+        photoPreviewElement.appendChild(photo);
+      }
+
+      reader.addEventListener('load', function () {
+        photo.src = reader.result;
+      });
+
+      reader.readAsDataURL(file);
+    }
   });
 
   resetButtonElement.addEventListener('click', function (evt) {
