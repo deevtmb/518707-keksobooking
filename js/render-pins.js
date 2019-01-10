@@ -33,12 +33,7 @@
 
   window.renderPins = function (offers) {
     var fragment = document.createDocumentFragment();
-    var amount;
-    if (offers.length > OFFERS_AMOUNT) {
-      amount = OFFERS_AMOUNT;
-    } else {
-      amount = offers.length;
-    }
+    var amount = offers.length > OFFERS_AMOUNT ? OFFERS_AMOUNT : offers.length;
 
     for (var i = 0; i < amount; i++) {
       fragment.appendChild(createMapPin(offers[i]));
