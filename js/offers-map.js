@@ -6,6 +6,13 @@
   var mapPinMainElement = mapElement.querySelector('.map__pin--main');
   var formElement = document.querySelector('.ad-form');
 
+  window.offersMap = [];
+
+  var onSuccessLoad = function (data) {
+    window.offersMap = data;
+    window.renderPins(window.offersMap);
+  };
+
   var activateMap = function () {
     mapElement.classList.remove('map--faded');
     formElement.classList.remove('ad-form--disabled');
@@ -16,7 +23,7 @@
   var onMouseMove = function (moveEvt) {
     if (mapElement.classList.contains('map--faded')) {
       activateMap();
-      window.backend.load(window.renderPins, window.userMsg.onError);
+      window.backend.load(onSuccessLoad, window.userMsg.onError);
     }
 
     var shift = {
@@ -69,7 +76,7 @@
   mapPinMainElement.addEventListener('click', function () {
     if (mapElement.classList.contains('map--faded')) {
       activateMap();
-      window.backend.load(window.renderPins);
+      window.backend.load(onSuccessLoad, window.userMsg.onError);
     }
     mapPinMainElement.removeEventListener('click', activateMap);
   });

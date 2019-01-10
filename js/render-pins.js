@@ -1,6 +1,8 @@
 'use strict';
 
 (function () {
+  var OFFERS_AMOUNT = 5;
+
   var mapElement = document.querySelector('.map');
   var mapPinElements = mapElement.querySelector('.map__pins');
   var mapPinTemplate = document.querySelector('#pin')
@@ -31,8 +33,9 @@
 
   window.renderPins = function (offers) {
     var fragment = document.createDocumentFragment();
+    var amount = offers.length > OFFERS_AMOUNT ? OFFERS_AMOUNT : offers.length;
 
-    for (var i = 0; i < offers.length; i++) {
+    for (var i = 0; i < amount; i++) {
       fragment.appendChild(createMapPin(offers[i]));
     }
     mapPinElements.appendChild(fragment);

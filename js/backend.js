@@ -1,8 +1,10 @@
 'use strict';
 
 (function () {
-  var LOAD_URL = 'https://js.dump.academy/keksobooking/data';
-  var SAVE_URL = 'https://js.dump.academy/keksobooking';
+  var Url = {
+    LOAD: 'https://js.dump.academy/keksobooking/data',
+    SAVE: 'https://js.dump.academy/keksobooking'
+  };
   var SUCCESS_STATUS = 200;
 
   var load = function (onLoad, onError) {
@@ -22,7 +24,7 @@
       onError('Ошибка соединения');
     });
 
-    xhr.open('GET', LOAD_URL);
+    xhr.open('GET', Url.LOAD);
     xhr.send();
   };
 
@@ -42,7 +44,7 @@
       onError('Ошибка соединения');
     });
 
-    xhr.open('POST', SAVE_URL);
+    xhr.open('POST', Url.SAVE);
     xhr.send(data);
   };
 
