@@ -1,11 +1,12 @@
 'use strict';
 
 (function () {
+  var SUCCESS_STATUS = 200;
+
   var Url = {
     LOAD: 'https://js.dump.academy/keksobooking/data',
     SAVE: 'https://js.dump.academy/keksobooking'
   };
-  var SUCCESS_STATUS = 200;
 
   var load = function (onLoad, onError) {
     var xhr = new XMLHttpRequest();
