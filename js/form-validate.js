@@ -53,38 +53,40 @@
   };
 
   var checkGuestNumber = function () {
-    submitButtonElement.addEventListener('click', function () {
-      if (roomNumberElement.value === '1' && guestCapacityElement.value !== '1') {
-        guestCapacityElement.setCustomValidity('Одна комната - Один гость');
-      } else if (roomNumberElement.value === '2' && guestCapacityElement.value !== '1' && guestCapacityElement.value !== '2') {
-        guestCapacityElement.setCustomValidity('Две комнаты - Один или Два гостя');
-      } else if (roomNumberElement.value === '3' && guestCapacityElement.value === '0') {
-        guestCapacityElement.setCustomValidity('Выберите количество гостей');
-      } else if (roomNumberElement.value === '100' && guestCapacityElement.value !== '0') {
-        guestCapacityElement.setCustomValidity('Сто комнат - не для гостей');
-      } else {
-        guestCapacityElement.setCustomValidity('');
-        window.backend.save(new FormData(formElement), window.formSetup.onSuccessSubmit, window.userMsg.onError);
-      }
-    });
+    if (roomNumberElement.value === '1' && guestCapacityElement.value !== '1') {
+      guestCapacityElement.setCustomValidity('Одна комната - Один гость');
+    } else if (roomNumberElement.value === '2' && guestCapacityElement.value !== '1' && guestCapacityElement.value !== '2') {
+      guestCapacityElement.setCustomValidity('Две комнаты - Один или Два гостя');
+    } else if (roomNumberElement.value === '3' && guestCapacityElement.value === '0') {
+      guestCapacityElement.setCustomValidity('Выберите количество гостей');
+    } else if (roomNumberElement.value === '100' && guestCapacityElement.value !== '0') {
+      guestCapacityElement.setCustomValidity('Сто комнат - не для гостей');
+    } else {
+      guestCapacityElement.setCustomValidity('');
+    }
   };
 
   var onValidationListeners = function () {
     checkinInputElement.addEventListener('input', function () {
       setElementsValueEquality(checkinInputElement, checkoutInputElement);
     });
-
     checkoutInputElement.addEventListener('input', function () {
       setElementsValueEquality(checkoutInputElement, checkinInputElement);
     });
 
     housingTypeElement.addEventListener('input', setAccommodationPrice);
+    housingPriceElement.addEventListener('input', setAccommodationPrice);
 
     formElement.addEventListener('submit', function (evt) {
       evt.preventDefault();
     });
 
-    checkGuestNumber();
+    submitButtonElement.addEventListener('click', function () {
+      checkGuestNumber();
+      if (guestCapacityElement.validity.valid && housingPriceElement.validity.valid) {
+        window.backend.save(new FormData(formElement), window.formSetup.onSuccessSubmit, window.userMsg.onError);
+      }
+    });
   };
 
   onValidationListeners();

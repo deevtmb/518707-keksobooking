@@ -12,6 +12,8 @@
     LOCATION_Y_MAX: LOCATION_Y_MAX,
     MAP_PIN_HEIGHT: MAP_PIN_HEIGHT,
     MAP_PIN_WIDTH: MAP_PIN_WIDTH,
-    ESC_KEYCODE: ESC_KEYCODE
+    isEscPressed: function (evt) {
+      return evt.keyCode === ESC_KEYCODE;
+    }
   };
 })();

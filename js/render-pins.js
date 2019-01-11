@@ -4,7 +4,7 @@
   var OFFERS_AMOUNT = 5;
 
   var mapElement = document.querySelector('.map');
-  var mapPinElements = mapElement.querySelector('.map__pins');
+  var mapPinsContainerElement = mapElement.querySelector('.map__pins');
   var mapPinTemplate = document.querySelector('#pin')
     .content
     .querySelector('.map__pin');
@@ -18,14 +18,15 @@
 
     mapPin.addEventListener('click', function () {
       var popup = mapElement.querySelector('.popup');
+      var activePinElement = mapElement.querySelector('.map__pin--active');
       if (popup) {
         mapElement.removeChild(popup);
       }
-      window.renderCard(offerItem);
+      if (activePinElement) {
+        activePinElement.classList.remove('map__pin--active');
+      }
       mapPin.classList.add('map__pin--active');
-      mapPin.addEventListener('blur', function () {
-        mapPin.classList.remove('map__pin--active');
-      });
+      window.renderCard(offerItem);
     });
 
     return mapPin;
@@ -38,6 +39,6 @@
     for (var i = 0; i < amount; i++) {
       fragment.appendChild(createMapPin(offers[i]));
     }
-    mapPinElements.appendChild(fragment);
+    mapPinsContainerElement.appendChild(fragment);
   };
 })();

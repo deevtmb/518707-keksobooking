@@ -130,22 +130,22 @@
   housingGuestElement.addEventListener('input', function () {
     debounce(onMapFiltersChange);
   });
-  wifiFeatureElement.addEventListener('input', function () {
+  wifiFeatureElement.addEventListener('change', function () {
     debounce(onMapFiltersChange);
   });
-  dishwasherFeatureElement.addEventListener('input', function () {
+  dishwasherFeatureElement.addEventListener('change', function () {
     debounce(onMapFiltersChange);
   });
-  parkingFeatureElement.addEventListener('input', function () {
+  parkingFeatureElement.addEventListener('change', function () {
     debounce(onMapFiltersChange);
   });
-  washerFeatureElement.addEventListener('input', function () {
+  washerFeatureElement.addEventListener('change', function () {
     debounce(onMapFiltersChange);
   });
-  elevatorFeatureElement.addEventListener('input', function () {
+  elevatorFeatureElement.addEventListener('change', function () {
     debounce(onMapFiltersChange);
   });
-  conditionerFeatureElement.addEventListener('input', function () {
+  conditionerFeatureElement.addEventListener('change', function () {
     debounce(onMapFiltersChange);
   });
 })();
