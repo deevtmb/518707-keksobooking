@@ -11,18 +11,18 @@
 
     errorElement.querySelector('p').textContent = errorMessage;
     mainElement.appendChild(errorElement);
-    var removeErrorMessage = function () {
+    var onErrorMessageRemove = function () {
       errorElement.remove();
-      document.removeEventListener('click', removeErrorMessage);
+      document.removeEventListener('click', onErrorMessageRemove);
     };
 
-    document.addEventListener('click', removeErrorMessage);
+    document.addEventListener('click', onErrorMessageRemove);
     document.addEventListener('keydown', function () {
       if (window.utils.isEscPressed && errorElement) {
-        removeErrorMessage();
+        onErrorMessageRemove();
       }
     });
-    errorButtonElement.addEventListener('click', removeErrorMessage);
+    errorButtonElement.addEventListener('click', onErrorMessageRemove);
   };
 
   var onSuccessSave = function () {
@@ -32,17 +32,17 @@
     var mainElement = document.querySelector('main');
     var successElement = successTemplate.cloneNode(true);
 
-    var removeSuccessMessage = function () {
+    var onSuccessMessageRemove = function () {
       successElement.remove();
-      document.removeEventListener('click', removeSuccessMessage);
+      document.removeEventListener('click', onSuccessMessageRemove);
     };
 
     mainElement.appendChild(successElement);
 
-    document.addEventListener('click', removeSuccessMessage);
+    document.addEventListener('click', onSuccessMessageRemove);
     document.addEventListener('keydown', function () {
       if (window.utils.isEscPressed && successElement) {
-        removeSuccessMessage();
+        onSuccessMessageRemove();
       }
     });
   };

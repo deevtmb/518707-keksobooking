@@ -25,7 +25,7 @@
   var disableForm = function () {
     if (formElement.classList.contains('ad-form--disabled')) {
       for (var i = 0; i < formFieldsetElements.length; i++) {
-        formFieldsetElements[i].setAttribute('disabled', true);
+        formFieldsetElements[i].disabled = true;
       }
     }
   };
