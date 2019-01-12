@@ -17,8 +17,8 @@
     };
 
     document.addEventListener('click', onErrorMessageRemove);
-    document.addEventListener('keydown', function () {
-      if (window.utils.isEscPressed && errorElement) {
+    document.addEventListener('keydown', function (evt) {
+      if (evt.keyCode === window.utils.ESC_KEYCODE && errorElement) {
         onErrorMessageRemove();
       }
     });
@@ -40,8 +40,8 @@
     mainElement.appendChild(successElement);
 
     document.addEventListener('click', onSuccessMessageRemove);
-    document.addEventListener('keydown', function () {
-      if (window.utils.isEscPressed && successElement) {
+    document.addEventListener('keydown', function (evt) {
+      if (evt.keyCode === window.utils.ESC_KEYCODE && successElement) {
         onSuccessMessageRemove();
       }
     });
