@@ -48,16 +48,10 @@
         }
       })
       .filter(function (it) {
-        if (housingTypeElement.value !== 'any') {
-          return it.offer.type === housingTypeElement.value;
-        }
-        return true;
+        return housingTypeElement.value !== 'any' ? it.offer.type === housingTypeElement.value : true;
       })
       .filter(function (it) {
-        if (housingRoomElement.value !== 'any') {
-          return it.offer.rooms === parseInt(housingRoomElement.value, 10);
-        }
-        return true;
+        return housingRoomElement.value !== 'any' ? it.offer.rooms === parseInt(housingRoomElement.value, 10) : true;
       })
       .filter(function (it) {
         if (housingGuestElement.value === '1' || housingGuestElement.value === '2') {
@@ -69,40 +63,22 @@
         }
       })
       .filter(function (it) {
-        if (wifiFeatureElement.checked) {
-          return it.offer.features.includes(wifiFeatureElement.value);
-        }
-        return true;
+        return wifiFeatureElement.checked ? it.offer.features.includes(wifiFeatureElement.value) : true;
       })
       .filter(function (it) {
-        if (dishwasherFeatureElement.checked) {
-          return it.offer.features.includes(dishwasherFeatureElement.value);
-        }
-        return true;
+        return dishwasherFeatureElement.checked ? it.offer.features.includes(dishwasherFeatureElement.value) : true;
       })
       .filter(function (it) {
-        if (parkingFeatureElement.checked) {
-          return it.offer.features.includes(parkingFeatureElement.value);
-        }
-        return true;
+        return parkingFeatureElement.checked ? it.offer.features.includes(parkingFeatureElement.value) : true;
       })
       .filter(function (it) {
-        if (washerFeatureElement.checked) {
-          return it.offer.features.includes(washerFeatureElement.value);
-        }
-        return true;
+        return washerFeatureElement.checked ? it.offer.features.includes(washerFeatureElement.value) : true;
       })
       .filter(function (it) {
-        if (elevatorFeatureElement.checked) {
-          return it.offer.features.includes(elevatorFeatureElement.value);
-        }
-        return true;
+        return elevatorFeatureElement.checked ? it.offer.features.includes(elevatorFeatureElement.value) : true;
       })
       .filter(function (it) {
-        if (conditionerFeatureElement.checked) {
-          return it.offer.features.includes(conditionerFeatureElement.value);
-        }
-        return true;
+        return conditionerFeatureElement.checked ? it.offer.features.includes(conditionerFeatureElement.value) : true;
       });
 
     if (cardElement) {

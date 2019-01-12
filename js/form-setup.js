@@ -100,7 +100,7 @@
       var photo = document.createElement('img');
       photo.className = 'ad-form__photo';
 
-      if (photoPreviewElement.innerHTML !== '') {
+      if (photoPreviewElement.innerHTML) {
         var newPhotoElement = document.createElement('div');
         newPhotoElement.className = 'ad-form__photo';
         newPhotoElement.appendChild(photo);

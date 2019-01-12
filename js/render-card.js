@@ -57,10 +57,10 @@
     offerCard.querySelector('.popup__avatar').src = offerItem.author.avatar;
     offerCard.replaceChild(addOfferPhotos(offerItem.offer.photos), offerCard.querySelector('.popup__photos'));
 
-    if (offerCard.querySelector('.popup__description').textContent === '') {
+    if (!offerCard.querySelector('.popup__description').textContent) {
       offerCard.querySelector('.popup__description').remove();
     }
-    if (offerCard.querySelector('.popup__features').innerHTML === '') {
+    if (!offerCard.querySelector('.popup__features').innerHTML) {
       offerCard.querySelector('.popup__features').remove();
     }
 
