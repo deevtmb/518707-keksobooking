@@ -1,6 +1,8 @@
 'use strict';
 
 (function () {
+  var OFFER_PHOTO_SIZE = 40;
+
   var AccomodationType = {
     PALACE: 'Дворец',
     FLAT: 'Квартира',
@@ -17,15 +19,15 @@
   var addOfferPhotos = function (photos) {
     var photoFragment = document.createDocumentFragment();
 
-    for (var i = 0; i < photos.length; i++) {
+    photos.forEach(function (value) {
       var photo = document.createElement('img');
       photo.className = 'popup__photo';
-      photo.src = photos[i];
+      photo.src = value;
       photo.alt = 'Фотография жилья';
-      photo.width = 40;
-      photo.height = 40;
+      photo.width = OFFER_PHOTO_SIZE;
+      photo.height = OFFER_PHOTO_SIZE;
       photoFragment.appendChild(photo);
-    }
+    });
 
     return photoFragment;
   };
@@ -33,11 +35,12 @@
   var getFeaturesList = function (features) {
     var featuresList = document.createElement('ul');
     featuresList.className = 'popup__features';
-    for (var i = 0; i < features.length; i++) {
+
+    features.forEach(function (value) {
       var feature = document.createElement('li');
-      feature.className = 'popup__feature popup__feature--' + features[i];
+      feature.className = 'popup__feature popup__feature--' + value;
       featuresList.appendChild(feature);
-    }
+    });
 
     return featuresList;
   };

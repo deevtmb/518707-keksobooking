@@ -5,16 +5,17 @@
   var LOW_PRICE = 10000;
   var MIDDLE_PRICE = 50000;
 
-  var housingPriceElement = document.querySelector('#housing-price');
-  var housingTypeElement = document.querySelector('#housing-type');
-  var housingRoomElement = document.querySelector('#housing-rooms');
-  var housingGuestElement = document.querySelector('#housing-guests');
-  var wifiFeatureElement = document.querySelector('#filter-wifi');
-  var dishwasherFeatureElement = document.querySelector('#filter-dishwasher');
-  var parkingFeatureElement = document.querySelector('#filter-parking');
-  var washerFeatureElement = document.querySelector('#filter-washer');
-  var elevatorFeatureElement = document.querySelector('#filter-elevator');
-  var conditionerFeatureElement = document.querySelector('#filter-conditioner');
+  var mapFiltersElement = document.querySelector('.map__filters');
+  var housingPriceElement = mapFiltersElement.querySelector('#housing-price');
+  var housingTypeElement = mapFiltersElement.querySelector('#housing-type');
+  var housingRoomElement = mapFiltersElement.querySelector('#housing-rooms');
+  var housingGuestElement = mapFiltersElement.querySelector('#housing-guests');
+  var wifiFeatureElement = mapFiltersElement.querySelector('#filter-wifi');
+  var dishwasherFeatureElement = mapFiltersElement.querySelector('#filter-dishwasher');
+  var parkingFeatureElement = mapFiltersElement.querySelector('#filter-parking');
+  var washerFeatureElement = mapFiltersElement.querySelector('#filter-washer');
+  var elevatorFeatureElement = mapFiltersElement.querySelector('#filter-elevator');
+  var conditionerFeatureElement = mapFiltersElement.querySelector('#filter-conditioner');
   var lastTimeout;
 
   var debounce = function (cb) {
@@ -27,9 +28,9 @@
   var removeOffers = function () {
     var offerElements = document.querySelectorAll('.map__pin:not(.map__pin--main)');
 
-    for (var i = 0; i < offerElements.length; i++) {
-      offerElements[i].remove();
-    }
+    Array.from(offerElements).forEach(function (element) {
+      element.remove();
+    });
   };
 
   var onMapFiltersChange = function () {
