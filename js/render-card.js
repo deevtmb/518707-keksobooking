@@ -52,9 +52,8 @@
     if (evt.keyCode === window.utils.ESC_KEYCODE && cardElement) {
       cardElement.remove();
       activePinElement.classList.remove('map__pin--active');
+      document.removeEventListener('keydown', onOfferCardClose);
     }
-
-    document.removeEventListener('keydown', onOfferCardClose);
   };
 
   window.renderCard = function (offerItem) {

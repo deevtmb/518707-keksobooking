@@ -40,8 +40,8 @@
     var onSuccessMessageKeydown = function (evt) {
       if (evt.keyCode === window.utils.ESC_KEYCODE && successElement) {
         successElement.remove();
+        document.removeEventListener('keydown', onSuccessMessageKeydown);
       }
-      document.removeEventListener('keydown', onSuccessMessageKeydown);
     };
 
     mainElement.appendChild(successElement);
