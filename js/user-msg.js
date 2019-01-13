@@ -32,19 +32,22 @@
     var mainElement = document.querySelector('main');
     var successElement = successTemplate.cloneNode(true);
 
-    var onSuccessMessageRemove = function () {
+    var onSuccessMessageClick = function () {
       successElement.remove();
-      document.removeEventListener('click', onSuccessMessageRemove);
+      document.removeEventListener('click', onSuccessMessageClick);
+    };
+
+    var onSuccessMessageKeydown = function (evt) {
+      if (evt.keyCode === window.utils.ESC_KEYCODE && successElement) {
+        successElement.remove();
+      }
+      document.removeEventListener('keydown', onSuccessMessageKeydown);
     };
 
     mainElement.appendChild(successElement);
 
-    document.addEventListener('click', onSuccessMessageRemove);
-    document.addEventListener('keydown', function (evt) {
-      if (evt.keyCode === window.utils.ESC_KEYCODE && successElement) {
-        onSuccessMessageRemove();
-      }
-    });
+    document.addEventListener('click', onSuccessMessageClick);
+    document.addEventListener('keydown', onSuccessMessageKeydown);
   };
 
   window.userMsg = {

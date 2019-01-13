@@ -45,6 +45,18 @@
     return featuresList;
   };
 
+  var onOfferCardClose = function (evt) {
+    var cardElement = mapElement.querySelector('.map__card');
+    var activePinElement = mapElement.querySelector('.map__pin--active');
+
+    if (evt.keyCode === window.utils.ESC_KEYCODE && cardElement) {
+      cardElement.remove();
+      activePinElement.classList.remove('map__pin--active');
+    }
+
+    document.removeEventListener('keydown', onOfferCardClose);
+  };
+
   window.renderCard = function (offerItem) {
     var offerCard = offerCardTemplate.cloneNode(true);
     var cardCloseButton = offerCard.querySelector('.popup__close');
@@ -73,14 +85,6 @@
       mapElement.removeChild(offerCard);
     });
 
-    document.addEventListener('keydown', function (evt) {
-      var cardElement = mapElement.querySelector('.map__card');
-      var activePinElement = mapElement.querySelector('.map__pin--active');
-
-      if (evt.keyCode === window.utils.ESC_KEYCODE && cardElement) {
-        cardElement.remove();
-        activePinElement.classList.remove('map__pin--active');
-      }
-    });
+    document.addEventListener('keydown', onOfferCardClose);
   };
 })();
