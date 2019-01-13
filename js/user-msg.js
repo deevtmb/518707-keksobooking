@@ -7,22 +7,26 @@
       .querySelector('.error');
     var mainElement = document.querySelector('main');
     var errorElement = errorTemplate.cloneNode(true);
-    var errorButtonElement = errorElement.querySelector('.error__button');
 
     errorElement.querySelector('p').textContent = errorMessage;
     mainElement.appendChild(errorElement);
-    var onErrorMessageRemove = function () {
+
+    var onErrorMessageClick = function () {
       errorElement.remove();
-      document.removeEventListener('click', onErrorMessageRemove);
+      document.removeEventListener('click', onErrorMessageClick);
+      document.removeEventListener('keydown', onErrorMessageKeydown);
     };
 
-    document.addEventListener('click', onErrorMessageRemove);
-    document.addEventListener('keydown', function (evt) {
+    var onErrorMessageKeydown = function (evt) {
       if (evt.keyCode === window.utils.ESC_KEYCODE && errorElement) {
-        onErrorMessageRemove();
+        errorElement.remove();
+        document.removeEventListener('click', onErrorMessageClick);
+        document.removeEventListener('keydown', onErrorMessageKeydown);
       }
-    });
-    errorButtonElement.addEventListener('click', onErrorMessageRemove);
+    };
+
+    document.addEventListener('click', onErrorMessageClick);
+    document.addEventListener('keydown', onErrorMessageKeydown);
   };
 
   var onSuccessSave = function () {
@@ -34,6 +38,7 @@
 
     var onSuccessMessageClick = function () {
       successElement.remove();
+      document.removeEventListener('keydown', onSuccessMessageKeydown);
       document.removeEventListener('click', onSuccessMessageClick);
     };
 
@@ -41,6 +46,7 @@
       if (evt.keyCode === window.utils.ESC_KEYCODE && successElement) {
         successElement.remove();
         document.removeEventListener('keydown', onSuccessMessageKeydown);
+        document.removeEventListener('click', onSuccessMessageClick);
       }
     };
 
