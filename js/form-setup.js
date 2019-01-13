@@ -4,7 +4,7 @@
   var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
 
   var mapElement = document.querySelector('.map');
-  var mapMainPinElement = document.querySelector('.map__pin--main');
+  var mapMainPinElement = mapElement.querySelector('.map__pin--main');
   var formElement = document.querySelector('.ad-form');
   var formFieldsetElements = formElement.querySelectorAll('fieldset');
   var resetButtonElement = formElement.querySelector('.ad-form__reset');
@@ -24,16 +24,16 @@
 
   var disableForm = function () {
     if (formElement.classList.contains('ad-form--disabled')) {
-      for (var i = 0; i < formFieldsetElements.length; i++) {
-        formFieldsetElements[i].setAttribute('disabled', true);
-      }
+      Array.from(formFieldsetElements).forEach(function (element) {
+        element.disabled = true;
+      });
     }
   };
 
   var enable = function () {
-    for (var i = 0; i < formFieldsetElements.length; i++) {
-      formFieldsetElements[i].removeAttribute('disabled');
-    }
+    Array.from(formFieldsetElements).forEach(function (element) {
+      element.disabled = false;
+    });
   };
 
   var setDisableMode = function () {
@@ -45,9 +45,9 @@
     mapMainPinElement.style.left = mainPinPositionLeft;
     mapMainPinElement.style.top = mainPinPositionTop;
 
-    for (var i = 0; i < mapPinElements.length; i++) {
-      mapPinElements[i].remove();
-    }
+    Array.from(mapPinElements).forEach(function (element) {
+      element.remove();
+    });
     if (offerCardElement) {
       offerCardElement.remove();
     }
@@ -100,7 +100,7 @@
       var photo = document.createElement('img');
       photo.className = 'ad-form__photo';
 
-      if (photoPreviewElement.innerHTML !== '') {
+      if (photoPreviewElement.innerHTML) {
         var newPhotoElement = document.createElement('div');
         newPhotoElement.className = 'ad-form__photo';
         newPhotoElement.appendChild(photo);

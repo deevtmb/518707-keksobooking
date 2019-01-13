@@ -2,17 +2,20 @@
 
 (function () {
   var DEBOUNCE_INTERVAL = 500;
+  var LOW_PRICE = 10000;
+  var MIDDLE_PRICE = 50000;
 
-  var housingPriceElement = document.querySelector('#housing-price');
-  var housingTypeElement = document.querySelector('#housing-type');
-  var housingRoomElement = document.querySelector('#housing-rooms');
-  var housingGuestElement = document.querySelector('#housing-guests');
-  var wifiFeatureElement = document.querySelector('#filter-wifi');
-  var dishwasherFeatureElement = document.querySelector('#filter-dishwasher');
-  var parkingFeatureElement = document.querySelector('#filter-parking');
-  var washerFeatureElement = document.querySelector('#filter-washer');
-  var elevatorFeatureElement = document.querySelector('#filter-elevator');
-  var conditionerFeatureElement = document.querySelector('#filter-conditioner');
+  var mapFiltersElement = document.querySelector('.map__filters');
+  var housingPriceElement = mapFiltersElement.querySelector('#housing-price');
+  var housingTypeElement = mapFiltersElement.querySelector('#housing-type');
+  var housingRoomElement = mapFiltersElement.querySelector('#housing-rooms');
+  var housingGuestElement = mapFiltersElement.querySelector('#housing-guests');
+  var wifiFeatureElement = mapFiltersElement.querySelector('#filter-wifi');
+  var dishwasherFeatureElement = mapFiltersElement.querySelector('#filter-dishwasher');
+  var parkingFeatureElement = mapFiltersElement.querySelector('#filter-parking');
+  var washerFeatureElement = mapFiltersElement.querySelector('#filter-washer');
+  var elevatorFeatureElement = mapFiltersElement.querySelector('#filter-elevator');
+  var conditionerFeatureElement = mapFiltersElement.querySelector('#filter-conditioner');
   var lastTimeout;
 
   var debounce = function (cb) {
@@ -25,9 +28,63 @@
   var removeOffers = function () {
     var offerElements = document.querySelectorAll('.map__pin:not(.map__pin--main)');
 
-    for (var i = 0; i < offerElements.length; i++) {
-      offerElements[i].remove();
+    Array.from(offerElements).forEach(function (element) {
+      element.remove();
+    });
+  };
+
+  var filterPrice = function (element) {
+    if (housingPriceElement.value === 'high') {
+      return element.offer.price >= MIDDLE_PRICE;
+    } else if (housingPriceElement.value === 'low') {
+      return element.offer.price <= LOW_PRICE;
+    } else if (housingPriceElement.value === 'middle') {
+      return element.offer.price >= LOW_PRICE && element.offer.price <= MIDDLE_PRICE;
+    } else {
+      return true;
     }
+  };
+
+  var filterType = function (element) {
+    return housingTypeElement.value !== 'any' ? element.offer.type === housingTypeElement.value : true;
+  };
+
+  var filterRoomsAmount = function (element) {
+    return housingRoomElement.value !== 'any' ? element.offer.rooms === parseInt(housingRoomElement.value, 10) : true;
+  };
+
+  var filterGuestsAmount = function (element) {
+    if (housingGuestElement.value === '1' || housingGuestElement.value === '2') {
+      return element.offer.guests >= parseInt(housingGuestElement.value, 10);
+    } else if (housingGuestElement.value === '0') {
+      return element.offer.guests === parseInt(housingGuestElement.value, 10);
+    } else {
+      return true;
+    }
+  };
+
+  var filterWiFi = function (element) {
+    return wifiFeatureElement.checked ? element.offer.features.includes(wifiFeatureElement.value) : true;
+  };
+
+  var filterDishwasher = function (element) {
+    return dishwasherFeatureElement.checked ? element.offer.features.includes(dishwasherFeatureElement.value) : true;
+  };
+
+  var filterParking = function (element) {
+    return parkingFeatureElement.checked ? element.offer.features.includes(parkingFeatureElement.value) : true;
+  };
+
+  var filterWasher = function (element) {
+    return washerFeatureElement.checked ? element.offer.features.includes(washerFeatureElement.value) : true;
+  };
+
+  var filterElevator = function (element) {
+    return elevatorFeatureElement.checked ? element.offer.features.includes(elevatorFeatureElement.value) : true;
+  };
+
+  var filterConditioner = function (element) {
+    return conditionerFeatureElement.checked ? element.offer.features.includes(conditionerFeatureElement.value) : true;
   };
 
   var onMapFiltersChange = function () {
@@ -35,80 +92,16 @@
 
     var filteredOffers = window.offersMap
       .filter(function (it) {
-        if (housingPriceElement.value === 'any') {
-          return it.offer.price > 0;
-        } else if (housingPriceElement.value === 'low') {
-          return it.offer.price <= 10000;
-        } else if (housingPriceElement.value === 'middle') {
-          return it.offer.price >= 10000 && it.offer.price <= 50000;
-        } else {
-          return it.offer.price >= 50000;
-        }
-      })
-      .filter(function (it) {
-        if (housingTypeElement.value !== 'any') {
-          return it.offer.type === housingTypeElement.value;
-        } else {
-          return true;
-        }
-      })
-      .filter(function (it) {
-        if (housingRoomElement.value !== 'any') {
-          return it.offer.rooms === parseInt(housingRoomElement.value, 10);
-        } else {
-          return true;
-        }
-      })
-      .filter(function (it) {
-        if (housingGuestElement.value === '1' || housingGuestElement.value === '2') {
-          return it.offer.guests >= parseInt(housingGuestElement.value, 10);
-        } else if (housingGuestElement.value === '0') {
-          return it.offer.guests === parseInt(housingGuestElement.value, 10);
-        } else {
-          return true;
-        }
-      })
-      .filter(function (it) {
-        if (wifiFeatureElement.checked) {
-          return it.offer.features.includes(wifiFeatureElement.value);
-        } else {
-          return true;
-        }
-      })
-      .filter(function (it) {
-        if (dishwasherFeatureElement.checked) {
-          return it.offer.features.includes(dishwasherFeatureElement.value);
-        } else {
-          return true;
-        }
-      })
-      .filter(function (it) {
-        if (parkingFeatureElement.checked) {
-          return it.offer.features.includes(parkingFeatureElement.value);
-        } else {
-          return true;
-        }
-      })
-      .filter(function (it) {
-        if (washerFeatureElement.checked) {
-          return it.offer.features.includes(washerFeatureElement.value);
-        } else {
-          return true;
-        }
-      })
-      .filter(function (it) {
-        if (elevatorFeatureElement.checked) {
-          return it.offer.features.includes(elevatorFeatureElement.value);
-        } else {
-          return true;
-        }
-      })
-      .filter(function (it) {
-        if (conditionerFeatureElement.checked) {
-          return it.offer.features.includes(conditionerFeatureElement.value);
-        } else {
-          return true;
-        }
+        return filterPrice(it) &&
+          filterType(it) &&
+          filterRoomsAmount(it) &&
+          filterGuestsAmount(it) &&
+          filterWiFi(it) &&
+          filterDishwasher(it) &&
+          filterParking(it) &&
+          filterWasher(it) &&
+          filterElevator(it) &&
+          filterConditioner(it);
       });
 
     if (cardElement) {
@@ -118,34 +111,7 @@
     window.renderPins(filteredOffers);
   };
 
-  housingTypeElement.addEventListener('input', function () {
-    debounce(onMapFiltersChange);
-  });
-  housingPriceElement.addEventListener('input', function () {
-    debounce(onMapFiltersChange);
-  });
-  housingRoomElement.addEventListener('input', function () {
-    debounce(onMapFiltersChange);
-  });
-  housingGuestElement.addEventListener('input', function () {
-    debounce(onMapFiltersChange);
-  });
-  wifiFeatureElement.addEventListener('change', function () {
-    debounce(onMapFiltersChange);
-  });
-  dishwasherFeatureElement.addEventListener('change', function () {
-    debounce(onMapFiltersChange);
-  });
-  parkingFeatureElement.addEventListener('change', function () {
-    debounce(onMapFiltersChange);
-  });
-  washerFeatureElement.addEventListener('change', function () {
-    debounce(onMapFiltersChange);
-  });
-  elevatorFeatureElement.addEventListener('change', function () {
-    debounce(onMapFiltersChange);
-  });
-  conditionerFeatureElement.addEventListener('change', function () {
+  mapFiltersElement.addEventListener('change', function () {
     debounce(onMapFiltersChange);
   });
 })();

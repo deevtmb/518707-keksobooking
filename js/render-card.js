@@ -1,6 +1,8 @@
 'use strict';
 
 (function () {
+  var OFFER_PHOTO_SIZE = 40;
+
   var AccomodationType = {
     PALACE: 'Дворец',
     FLAT: 'Квартира',
@@ -17,15 +19,15 @@
   var addOfferPhotos = function (photos) {
     var photoFragment = document.createDocumentFragment();
 
-    for (var i = 0; i < photos.length; i++) {
+    photos.forEach(function (value) {
       var photo = document.createElement('img');
       photo.className = 'popup__photo';
-      photo.src = photos[i];
+      photo.src = value;
       photo.alt = 'Фотография жилья';
-      photo.width = 40;
-      photo.height = 40;
+      photo.width = OFFER_PHOTO_SIZE;
+      photo.height = OFFER_PHOTO_SIZE;
       photoFragment.appendChild(photo);
-    }
+    });
 
     return photoFragment;
   };
@@ -33,13 +35,25 @@
   var getFeaturesList = function (features) {
     var featuresList = document.createElement('ul');
     featuresList.className = 'popup__features';
-    for (var i = 0; i < features.length; i++) {
+
+    features.forEach(function (value) {
       var feature = document.createElement('li');
-      feature.className = 'popup__feature popup__feature--' + features[i];
+      feature.className = 'popup__feature popup__feature--' + value;
       featuresList.appendChild(feature);
-    }
+    });
 
     return featuresList;
+  };
+
+  var onOfferCardClose = function (evt) {
+    var cardElement = mapElement.querySelector('.map__card');
+    var activePinElement = mapElement.querySelector('.map__pin--active');
+
+    if (evt.keyCode === window.utils.ESC_KEYCODE && cardElement) {
+      cardElement.remove();
+      activePinElement.classList.remove('map__pin--active');
+      document.removeEventListener('keydown', onOfferCardClose);
+    }
   };
 
   window.renderCard = function (offerItem) {
@@ -57,10 +71,10 @@
     offerCard.querySelector('.popup__avatar').src = offerItem.author.avatar;
     offerCard.replaceChild(addOfferPhotos(offerItem.offer.photos), offerCard.querySelector('.popup__photos'));
 
-    if (offerCard.querySelector('.popup__description').textContent === '') {
+    if (!offerCard.querySelector('.popup__description').textContent) {
       offerCard.querySelector('.popup__description').remove();
     }
-    if (offerCard.querySelector('.popup__features').innerHTML === '') {
+    if (!offerCard.querySelector('.popup__features').innerHTML) {
       offerCard.querySelector('.popup__features').remove();
     }
 
@@ -70,12 +84,6 @@
       mapElement.removeChild(offerCard);
     });
 
-    document.addEventListener('keydown', function () {
-      var cardElement = document.querySelector('.map__card');
-
-      if (window.utils.isEscPressed && cardElement) {
-        cardElement.remove();
-      }
-    });
+    document.addEventListener('keydown', onOfferCardClose);
   };
 })();

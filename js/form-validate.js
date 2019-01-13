@@ -18,8 +18,8 @@
   };
 
   var formElement = document.querySelector('.ad-form');
-  var checkinInputElement = formElement.querySelector('#timein');
-  var checkoutInputElement = formElement.querySelector('#timeout');
+  var checkInInputElement = formElement.querySelector('#timein');
+  var checkOutInputElement = formElement.querySelector('#timeout');
   var housingTypeElement = formElement.querySelector('#type');
   var housingPriceElement = formElement.querySelector('#price');
   var roomNumberElement = formElement.querySelector('#room_number');
@@ -36,7 +36,7 @@
     }
   };
 
-  var setAccommodationPrice = function () {
+  var onAccommodationPriceChange = function () {
     if (housingTypeElement.value === 'bungalo') {
       housingPriceElement.min = Price.BUNGALO_MIN;
       housingPriceElement.placeholder = Price.BUNGALO_PLACEHOLDER;
@@ -67,15 +67,15 @@
   };
 
   var onValidationListeners = function () {
-    checkinInputElement.addEventListener('input', function () {
-      setElementsValueEquality(checkinInputElement, checkoutInputElement);
+    checkInInputElement.addEventListener('input', function () {
+      setElementsValueEquality(checkInInputElement, checkOutInputElement);
     });
-    checkoutInputElement.addEventListener('input', function () {
-      setElementsValueEquality(checkoutInputElement, checkinInputElement);
+    checkOutInputElement.addEventListener('input', function () {
+      setElementsValueEquality(checkOutInputElement, checkInInputElement);
     });
 
-    housingTypeElement.addEventListener('input', setAccommodationPrice);
-    housingPriceElement.addEventListener('input', setAccommodationPrice);
+    housingTypeElement.addEventListener('input', onAccommodationPriceChange);
+    housingPriceElement.addEventListener('input', onAccommodationPriceChange);
 
     formElement.addEventListener('submit', function (evt) {
       evt.preventDefault();

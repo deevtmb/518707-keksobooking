@@ -11,18 +11,18 @@
 
     errorElement.querySelector('p').textContent = errorMessage;
     mainElement.appendChild(errorElement);
-    var removeErrorMessage = function () {
+    var onErrorMessageRemove = function () {
       errorElement.remove();
-      document.removeEventListener('click', removeErrorMessage);
+      document.removeEventListener('click', onErrorMessageRemove);
     };
 
-    document.addEventListener('click', removeErrorMessage);
-    document.addEventListener('keydown', function () {
-      if (window.utils.isEscPressed && errorElement) {
-        removeErrorMessage();
+    document.addEventListener('click', onErrorMessageRemove);
+    document.addEventListener('keydown', function (evt) {
+      if (evt.keyCode === window.utils.ESC_KEYCODE && errorElement) {
+        onErrorMessageRemove();
       }
     });
-    errorButtonElement.addEventListener('click', removeErrorMessage);
+    errorButtonElement.addEventListener('click', onErrorMessageRemove);
   };
 
   var onSuccessSave = function () {
@@ -32,19 +32,22 @@
     var mainElement = document.querySelector('main');
     var successElement = successTemplate.cloneNode(true);
 
-    var removeSuccessMessage = function () {
+    var onSuccessMessageClick = function () {
       successElement.remove();
-      document.removeEventListener('click', removeSuccessMessage);
+      document.removeEventListener('click', onSuccessMessageClick);
+    };
+
+    var onSuccessMessageKeydown = function (evt) {
+      if (evt.keyCode === window.utils.ESC_KEYCODE && successElement) {
+        successElement.remove();
+        document.removeEventListener('keydown', onSuccessMessageKeydown);
+      }
     };
 
     mainElement.appendChild(successElement);
 
-    document.addEventListener('click', removeSuccessMessage);
-    document.addEventListener('keydown', function () {
-      if (window.utils.isEscPressed && successElement) {
-        removeSuccessMessage();
-      }
-    });
+    document.addEventListener('click', onSuccessMessageClick);
+    document.addEventListener('keydown', onSuccessMessageKeydown);
   };
 
   window.userMsg = {
