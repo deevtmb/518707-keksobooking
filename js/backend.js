@@ -8,8 +8,10 @@
     SAVE: 'https://js.dump.academy/keksobooking'
   };
 
-  var load = function (onLoad, onError) {
-    var xhr = new XMLHttpRequest();
+  var xhr;
+
+  var createNewXhr = function (onLoad, onError, errorText) {
+    xhr = new XMLHttpRequest();
 
     xhr.responseType = 'json';
 
@@ -17,33 +19,24 @@
       if (xhr.status === SUCCESS_STATUS) {
         onLoad(xhr.response);
       } else {
-        onError('Ошибка загрузки данных: ' + xhr.status + ' ' + xhr.statusText);
+        onError(errorText + ': ' + xhr.status + ' ' + xhr.statusText);
       }
     });
 
     xhr.addEventListener('error', function () {
       onError('Ошибка соединения');
     });
+  };
+
+  var load = function (onLoad, onError) {
+    createNewXhr(onLoad, onError, 'Ошибка загрузки объявлений');
 
     xhr.open('GET', Url.LOAD);
     xhr.send();
   };
 
   var save = function (data, onLoad, onError) {
-    var xhr = new XMLHttpRequest();
-    xhr.responseType = 'json';
-
-    xhr.addEventListener('load', function () {
-      if (xhr.status === SUCCESS_STATUS) {
-        onLoad(xhr.response);
-      } else {
-        onError('Ошибка отправки формы: ' + xhr.status + ' ' + xhr.statusText);
-      }
-    });
-
-    xhr.addEventListener('error', function () {
-      onError('Ошибка соединения');
-    });
+    createNewXhr(onLoad, onError, 'Ошибка отправки формы');
 
     xhr.open('POST', Url.SAVE);
     xhr.send(data);
